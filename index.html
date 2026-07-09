@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Philanthropy Chairman Hub</title>
+  <meta
+    name="description"
+    content="Orientation, records, templates, costs, and handoff notes for the philanthropy chairman."
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="hero">
+    <div class="page-shell">
+      <p class="context">UNM Kappa Sigma · Delta Zeta Chapter</p>
+      <h1>Philanthropy Chairman Hub</h1>
+      <p class="subtitle">
+        Orientation, records, templates, costs, and handoff notes for the next chairman.
+      </p>
+    </div>
+  </header>
+
+  <div class="nav-wrap">
+    <nav class="page-shell nav" aria-label="Main navigation">
+      <a href="#overview">Overview</a>
+      <a href="#orientation">Orientation</a>
+      <a href="#checklist">Checklist</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+      <a href="#costs">Costs</a>
+      <a href="#playbooks">Playbooks</a>
+      <a href="#handoff">Handoff</a>
+    </nav>
+  </div>
+
+  <main class="page-shell">
+    <section id="overview" class="section">
+      <div class="section-title-row">
+        <div>
+          <h2>Overview</h2>
+          <p class="section-note">
+            A simple working hub for the philanthropy chairman role.
+          </p>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <a class="dashboard-card" href="#orientation">
+          <h3>Orientation</h3>
+          <p>Understand the role and first steps.</p>
+        </a>
+
+        <a class="dashboard-card" href="#checklist">
+          <h3>Checklist</h3>
+          <p>Track the core responsibilities.</p>
+        </a>
+
+        <a class="dashboard-card" href="#records">
+          <h3>Records</h3>
+          <p>Log events and results.</p>
+        </a>
+
+        <a class="dashboard-card" href="#files">
+          <h3>Files</h3>
+          <p>Store links to templates and sheets.</p>
+        </a>
+
+        <a class="dashboard-card" href="#costs">
+          <h3>Costs</h3>
+          <p>Track estimated and actual expenses.</p>
+        </a>
+
+        <a class="dashboard-card" href="#playbooks">
+          <h3>Playbooks</h3>
+          <p>Use planning outlines.</p>
+        </a>
+
+        <a class="dashboard-card" href="#handoff">
+          <h3>Handoff</h3>
+          <p>Leave notes for the next chairman.</p>
+        </a>
+      </div>
+
+      <div class="stats-grid" aria-label="Saved data summary">
+        <div class="stat">
+          <span>Checklist</span>
+          <strong id="statChecklist">0%</strong>
+        </div>
+
+        <div class="stat">
+          <span>Event Records</span>
+          <strong id="statEvents">0</strong>
+        </div>
+
+        <div class="stat">
+          <span>File Links</span>
+          <strong id="statFiles">0</strong>
+        </div>
+
+        <div class="stat">
+          <span>Actual Costs</span>
+          <strong id="statCosts">$0</strong>
+        </div>
+      </div>
+
+      <div class="backup-panel">
+        <button id="exportBackup" type="button">Export Backup</button>
+        <label class="file-upload">
+          Import Backup
+          <input id="importBackup" type="file" accept="application/json" />
+        </label>
+        <button id="exportEventsCsv" type="button" class="secondary-button">Export Events CSV</button>
+        <button id="exportCostsCsv" type="button" class="secondary-button">Export Costs CSV</button>
+        <button id="printPage" type="button" class="secondary-button">Print</button>
+        <button id="clearData" type="button" class="danger-button">Clear Saved Data</button>
+      </div>
+
+      <p class="small-note">
+        Records are saved in this browser. Export a backup before switching computers or handing off the role.
+      </p>
+    </section>
+
+    <section id="orientation" class="section">
+      <h2>Orientation</h2>
+      <p class="section-note">Start here before planning events or editing records.</p>
+
+      <div class="details-grid">
+        <details open>
+          <summary>Purpose of the Role</summary>
+          <p>
+            The philanthropy chairman plans, organizes, records, and improves the chapter's
+            philanthropy work. The role is not just about running events. It is also about
+            leaving behind a better system for the next chairman.
+          </p>
+        </details>
+
+        <details>
+          <summary>First 7 Days</summary>
+          <ul>
+            <li>Meet with the outgoing chairman.</li>
+            <li>Find the current Drive folder, spreadsheets, templates, and receipts.</li>
+            <li>Review any past event records that exist.</li>
+            <li>Confirm expectations with chapter leadership.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>First 30 Days</summary>
+          <ul>
+            <li>Build the semester philanthropy calendar.</li>
+            <li>Choose likely events and partners.</li>
+            <li>Create a working budget.</li>
+            <li>Assign responsibilities early.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>After Each Event</summary>
+          <ul>
+            <li>Record what happened.</li>
+            <li>Save receipts and files.</li>
+            <li>Write what worked and what should change.</li>
+            <li>Update this hub before the details are forgotten.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <section id="checklist" class="section">
+      <div class="section-title-row">
+        <div>
+          <h2>Checklist</h2>
+          <p class="section-note">Progress saves in this browser.</p>
+        </div>
+
+        <button id="resetChecklist" type="button" class="secondary-button">Reset Checklist</button>
+      </div>
+
+      <div id="checklistContainer" class="checklist-groups"></div>
+    </section>
+
+    <section id="records" class="section">
+      <h2>Records</h2>
+      <p class="section-note">Add real event records as they happen. Leave unknown fields blank.</p>
+
+      <form id="eventForm" class="form-card">
+        <h3 id="eventFormTitle">Add Event Record</h3>
+        <input type="hidden" name="id" />
+
+        <datalist id="knownEvents">
+          <option value="Military Heroes Week"></option>
+          <option value="Paratrooper Plinko"></option>
+          <option value="Pie-a-Kappa-Sigma"></option>
+          <option value="Spikeball Tournament"></option>
+          <option value="UNM Swag Raffle"></option>
+          <option value="Golf Ball Drop"></option>
+        </datalist>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="eventName">Event name</label>
+            <input id="eventName" name="eventName" list="knownEvents" required />
+          </div>
+
+          <div class="field">
+            <label for="eventSemester">Semester / year</label>
+            <input id="eventSemester" name="semester" />
+          </div>
+
+          <div class="field">
+            <label for="eventBeneficiary">Beneficiary / partner</label>
+            <input id="eventBeneficiary" name="beneficiary" />
+          </div>
+
+          <div class="field">
+            <label for="eventGross">Gross revenue</label>
+            <input id="eventGross" name="gross" type="number" min="0" step="0.01" />
+          </div>
+
+          <div class="field">
+            <label for="eventCosts">Costs</label>
+            <input id="eventCosts" name="costs" type="number" min="0" step="0.01" />
+          </div>
+
+          <div class="field">
+            <label for="eventLink">Folder or file link</label>
+            <input id="eventLink" name="fileLink" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="eventWorked">What worked?</label>
+          <textarea id="eventWorked" name="worked"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="eventImprove">What should improve?</label>
+          <textarea id="eventImprove" name="improve"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit">Save Record</button>
+          <button id="cancelEventEdit" type="button" class="secondary-button" hidden>Cancel Edit</button>
+        </div>
+      </form>
+
+      <div id="eventRecords" class="record-list"></div>
+    </section>
+
+    <section id="files" class="section">
+      <h2>Files</h2>
+      <p class="section-note">
+        Use this as a link library for Google Drive folders, Google Sheets, Docs, Excel files,
+        templates, receipts, and reports.
+      </p>
+
+      <form id="fileForm" class="form-card">
+        <h3 id="fileFormTitle">Add File or Template</h3>
+        <input type="hidden" name="id" />
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="fileName">File/template name</label>
+            <input id="fileName" name="fileName" required />
+          </div>
+
+          <div class="field">
+            <label for="fileCategory">Category</label>
+            <select id="fileCategory" name="category">
+              <option value="">Select category</option>
+              <option>Budget Spreadsheet</option>
+              <option>Event Planning Template</option>
+              <option>Business Outreach Script</option>
+              <option>Sponsorship Letter</option>
+              <option>Flyer / Poster</option>
+              <option>Sales Tracker</option>
+              <option>Volunteer Sheet</option>
+              <option>Receipt Folder</option>
+              <option>Final Report</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="fileLink">Link</label>
+            <input id="fileLink" name="fileLink" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="fileDescription">Short description</label>
+          <textarea id="fileDescription" name="description"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit">Save File</button>
+          <button id="cancelFileEdit" type="button" class="secondary-button" hidden>Cancel Edit</button>
+        </div>
+      </form>
+
+      <div id="fileRecords" class="record-list"></div>
+    </section>
+
+    <section id="costs" class="section">
+      <h2>Costs</h2>
+      <p class="section-note">
+        Track real estimated and actual costs. Totals are calculated only from what you enter.
+      </p>
+
+      <div class="totals">
+        <div>
+          <span>Estimated</span>
+          <strong id="totalEstimated">$0</strong>
+        </div>
+
+        <div>
+          <span>Actual</span>
+          <strong id="totalActual">$0</strong>
+        </div>
+
+        <div>
+          <span>Variance</span>
+          <strong id="totalVariance">$0</strong>
+        </div>
+      </div>
+
+      <form id="costForm" class="form-card">
+        <h3 id="costFormTitle">Add Cost</h3>
+        <input type="hidden" name="id" />
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="costItem">Cost item</label>
+            <input id="costItem" name="item" required />
+          </div>
+
+          <div class="field">
+            <label for="costEvent">Event</label>
+            <input id="costEvent" name="event" list="knownEvents" />
+          </div>
+
+          <div class="field">
+            <label for="costEstimated">Estimated cost</label>
+            <input id="costEstimated" name="estimated" type="number" min="0" step="0.01" />
+          </div>
+
+          <div class="field">
+            <label for="costActual">Actual cost</label>
+            <input id="costActual" name="actual" type="number" min="0" step="0.01" />
+          </div>
+
+          <div class="field">
+            <label for="costReceipt">Receipt link</label>
+            <input id="costReceipt" name="receipt" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="costNotes">Notes</label>
+          <textarea id="costNotes" name="notes"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit">Save Cost</button>
+          <button id="cancelCostEdit" type="button" class="secondary-button" hidden>Cancel Edit</button>
+        </div>
+      </form>
+
+      <div id="costRecords" class="record-list"></div>
+    </section>
+
+    <section id="playbooks" class="section">
+      <h2>Playbooks</h2>
+      <p class="section-note">Simple planning outlines. Edit them as the chapter learns what works.</p>
+
+      <div class="playbook-grid">
+        <article class="playbook">
+          <h3>Raffle</h3>
+          <ul>
+            <li>Confirm prize and rules.</li>
+            <li>Create a sales tracker.</li>
+            <li>Promote with a clear deadline.</li>
+            <li>Record winner, revenue, costs, and lessons learned.</li>
+          </ul>
+        </article>
+
+        <article class="playbook">
+          <h3>Tournament</h3>
+          <ul>
+            <li>Reserve location.</li>
+            <li>Create bracket and rules.</li>
+            <li>Assign check-in, referee, and cleanup roles.</li>
+            <li>Record teams, revenue, costs, and issues.</li>
+          </ul>
+        </article>
+
+        <article class="playbook">
+          <h3>Business Outreach</h3>
+          <ul>
+            <li>Build a target list.</li>
+            <li>Use one clear sponsorship ask.</li>
+            <li>Track follow-ups.</li>
+            <li>Send a thank-you and impact summary.</li>
+          </ul>
+        </article>
+
+        <article class="playbook">
+          <h3>Golf Ball Drop</h3>
+          <ul>
+            <li>Confirm location and safety requirements.</li>
+            <li>Track ticket and ball numbers carefully.</li>
+            <li>Assign judges and recorder.</li>
+            <li>Save final results and process notes.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="handoff" class="section">
+      <h2>Handoff Notes</h2>
+      <p class="section-note">Leave practical notes for the next chairman.</p>
+
+      <form id="handoffForm" class="form-card">
+        <div class="field">
+          <label for="wishKnew">What I wish I knew before starting</label>
+          <textarea id="wishKnew" name="wishKnew"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="contacts">Best contacts</label>
+          <textarea id="contacts" name="contacts"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="mistakes">Mistakes to avoid</label>
+          <textarea id="mistakes" name="mistakes"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="usefulFiles">Most useful files</label>
+          <textarea id="usefulFiles" name="usefulFiles"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="timeline">Recommended timeline</label>
+          <textarea id="timeline" name="timeline"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit">Save Handoff Notes</button>
+          <p id="handoffSaved" class="saved-message" aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+
+    <section class="section privacy">
+      <h2>Privacy</h2>
+      <ul>
+        <li>Do not store private member information here.</li>
+        <li>Do not post donor/payment details publicly.</li>
+        <li>Use approved chapter storage for receipts, files, and final records.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="page-shell">
+    <p>Internal officer resource. Not a public fraternity marketing page.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
