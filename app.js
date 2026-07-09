@@ -1,5 +1,8 @@
 const STORAGE_KEY = "philanthropyChairmanHub.v2";
 
+const REMOTE_SAVE_URL = "https://script.google.com/macros/s/AKfycbz_-Rl5b4-ghuEzdKLZD2sxNT94uUGLWK3L01ekIxKySF8k0X-FVP3raFmiuylhleCG/exec";
+const REMOTE_SAVE_ENABLED = true;
+
 const DEFAULT_DATA = {
   checklist: {},
   events: [],
@@ -74,6 +77,7 @@ function loadData() {
 function saveData() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   updateStats();
+  scheduleRemoteSync();
 }
 
 function structuredCloneSafe(value) {
@@ -210,6 +214,110 @@ function scrollToElement(element) {
     behavior: "smooth",
     block: "start"
   });
+}
+
+let remoteSaveTimer = null;
+
+function setRemoteStatus(message) {
+  let status = document.getElementById("remoteSaveStatus");
+
+  if (!status) {
+    status = document.createElement("p");
+    status.id = "remoteSaveStatus";
+    status.className = "small-note";
+
+    const overview = document.getElementById("overview");
+    overview.appendChild(status);
+  }
+
+  status.textContent = message;
+}
+
+function scheduleRemoteSync() {
+  if (!REMOTE_SAVE_ENABLED || !REMOTE_SAVE_URL) {
+    return;
+  }
+
+  setRemoteStatus("Autosaving to Google Sheets...");
+
+  clearTimeout(remoteSaveTimer);
+
+  remoteSaveTimer = setTimeout(() => {
+    syncToGoogleSheets();
+  }, 800);
+}
+
+async function syncToGoogleSheets() {
+  if (!REMOTE_SAVE_ENABLED || !REMOTE_SAVE_URL) {
+    return;
+  }
+
+  try {
+    const payload = {
+      action: "syncAll",
+      data
+    };
+
+    await fetch(REMOTE_SAVE_URL, {
+      method: "POST",
+      mode: "no-cors",
+      body: new URLSearchParams({
+        payload: JSON.stringify(payload)
+      })
+    });
+
+    setRemoteStatus("Saved to Google Sheets.");
+  } catch (error) {
+    setRemoteStatus("Could not save to Google Sheets. Browser copy is still saved.");
+  }
+}
+
+function loadFromGoogleSheets() {
+  if (!REMOTE_SAVE_ENABLED || !REMOTE_SAVE_URL) {
+    renderAll();
+    return;
+  }
+
+  setRemoteStatus("Loading from Google Sheets...");
+
+  const callbackName = "receivePhilanthropyHubData_" + Date.now();
+
+  const script = document.createElement("script");
+
+  window[callbackName] = function(response) {
+    try {
+      if (response && response.ok && response.data) {
+        data.events = Array.isArray(response.data.events) ? response.data.events : [];
+        data.files = Array.isArray(response.data.files) ? response.data.files : [];
+        data.costs = Array.isArray(response.data.costs) ? response.data.costs : [];
+        data.handoff = response.data.handoff || {};
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        renderAll();
+        setRemoteStatus("Loaded from Google Sheets.");
+      } else {
+        renderAll();
+        setRemoteStatus("Could not load from Google Sheets. Showing browser-saved copy.");
+      }
+    } catch (error) {
+      renderAll();
+      setRemoteStatus("Could not load from Google Sheets. Showing browser-saved copy.");
+    } finally {
+      delete window[callbackName];
+      script.remove();
+    }
+  };
+
+  script.src = REMOTE_SAVE_URL + "?callback=" + callbackName;
+
+  script.onerror = function() {
+    renderAll();
+    setRemoteStatus("Could not load from Google Sheets. Showing browser-saved copy.");
+    delete window[callbackName];
+    script.remove();
+  };
+
+  document.body.appendChild(script);
 }
 
 function renderChecklist() {
@@ -842,7 +950,7 @@ function init() {
   initCostForm();
   initHandoffForm();
   initBackupControls();
-  renderAll();
+  loadFromGoogleSheets();
 }
 
 init();
